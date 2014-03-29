@@ -1,0 +1,32 @@
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>console</headerType>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir></chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl></supportUrl>
+  <customProcName>true</customProcName>
+  <stayAlive>false</stayAlive>
+  <manifest></manifest>
+  <icon>resources/icon.ico</icon>
+  <jre>
+    <path></path>
+    <minVersion>1.6.0</minVersion>
+    <maxVersion></maxVersion>
+    <jdkPreference>preferJre</jdkPreference>
+  </jre>
+  <versionInfo>
+    <fileVersion>0.0.0.0</fileVersion>
+    <txtFileVersion>0.0.0.0</txtFileVersion>
+    <fileDescription>Guild of Fools Bot</fileDescription>
+    <copyright>2013 Guild of Fools</copyright>
+    <productVersion>0.0.0.0</productVersion>
+    <txtProductVersion>GoFBot</txtProductVersion>
+    <productName>Guild of Fools Bot</productName>
+    <companyName>Guild of Fools</companyName>
+    <internalName>GoFBot</internalName>
+    <originalFilename>GoFBot.exe</originalFilename>
+  </versionInfo>
+</launch4jConfig>

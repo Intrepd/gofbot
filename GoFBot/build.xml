@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns:ivy="antlib:org.apache.ivy.ant" default="dist">
+	<property name="project.name" value="GoFBot" />
+	<property name="build" location="build" />
+	<property name="debian" location="${build}/debian" />
+	<property name="dpkg-deb" location="/usr/bin/dpkg-deb" />
+	<property name="major.version" value="1" />
+	<property name="minor.version" value="0" />
+	<property name="mini.version" value="0" />
+	<property name="main.class" value="com.guildoffools.bot.GoFBot" />
+	<property name="classes" location="bin" />
+	<property name="dist" location="dist" />
+	<property name="jar" location="${build}/jar" />
+	<property name="stage" location="${build}/stage" />
+	<property name="stageDeb" location="${build}/stageDeb" />
+	<property name="stageStatic" location="${build}/stageStatic" />
+	<property name="lib" location="lib" />
+	<property name="source" location="src" />
+	<property name="launch4j.win32" location="/Program Files/Launch4j" />
+	<property name="launch4j.unix" location="/usr/local/launch4j" />
+	<property name="launch4j.xml" location="launch4j.xml" />
+
+	<target name="init">
+		<property environment="env" />
+		<condition property="dpkg-available">
+			<available file="${dpkg-deb}" />
+		</condition>
+		<condition property="build.number" value="${env.BUILD_NUMBER}" else="0">
+			<isset property="env.BUILD_NUMBER" />
+		</condition>
+		<condition property="svn.revision" value="${env.SVN_REVISION}" else="0">
+			<isset property="env.SVN_REVISION" />
+		</condition>
+		<condition property="launch4j.dir" value="${launch4j.win32}">
+			<and>
+				<os family="windows" />
+				<available file="${launch4j.win32}/launch4j.jar" />
+				<available file="${launch4j.xml}" />
+			</and>
+		</condition>
+		<condition property="launch4j.dir" value="${launch4j.unix}">
+			<and>
+				<os family="unix" />
+				<available file="${launch4j.unix}/launch4j.jar" />
+				<available file="${launch4j.xml}" />
+			</and>
+		</condition>
+		<tstamp>
+			<format property="timestamp" pattern="ddMMMyyyy-HHmmss" />
+		</tstamp>
+		
+		<property name="debian.file.name" value="${project.name}_${major.version}.${minor.version}.${mini.version}.${svn.revision}_amd64.deb" />
+	</target>
+
+    <target name="resolve">
+        <ivy:retrieve type="jar" pattern="${lib}/[artifact]-[revision](-[classifier]).[ext]" />
+    </target>
+	
+	<path id="compile.path">
+		<fileset dir="${lib}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="build">
+		<mkdir dir="${classes}" />
+		<javac srcdir="${source}" destdir="${classes}" debug="on" deprecation="on" source="1.6" target="1.6" includeAntRuntime="no">
+			<classpath refid="compile.path" />
+		</javac>
+	</target>
+
+	<target name="jar" depends="build">
+		<delete dir="${jar}" />
+		<mkdir dir="${jar}" />
+		<jar destfile="${jar}/${project.name}.jar" filesetmanifest="mergewithoutmain">
+			<manifest>
+				<attribute name="Main-Class" value="${main.class}" />
+				<attribute name="Class-Path" value="." />
+			</manifest>
+			<fileset dir="${classes}" />
+			<zipgroupfileset excludes="META-INF/*.SF" dir="${lib}" includes="*.jar" />
+		</jar>
+		<chmod file="${jar}/${project.name}.jar" perm="755" />
+	</target>
+
+	<target name="debian" depends="init" if="dpkg-available">
+		<delete dir="${stageDeb}" />
+		<mkdir dir="${stageDeb}" />
+		<mkdir dir="${debian}" />
+		<copy todir="${debian}">
+			<fileset dir="${build}/stageStatic" includes="**/*" />
+		</copy>
+		<copy todir="${debian}/home/gofbot/GoFBot">
+			<fileset dir="${jar}" includes="**/*" />
+		</copy>
+		<chmod perm="0644">
+			<fileset dir="${debian}" includes="**/*" />
+		</chmod>
+		<replaceregexp file="${debian}/DEBIAN/control" match="Version:.*" replace="Version: ${major.version}.${minor.version}.${mini.version}-${svn.revision}" />
+		<chmod perm="0755">
+			<fileset dir="${debian}/home/gofbot/" includes="**/*.sh" />
+		</chmod>
+		<chmod perm="0440" file="${debian}/etc/sudoers.d/gofbot" />
+		<chmod perm="0644" file="${debian}/DEBIAN/conffiles" />
+		<chmod perm="0755" file="${debian}/DEBIAN/postinst" />
+		<chmod perm="0755" file="${debian}/DEBIAN/preinst" />
+		<chmod perm="0755" file="${debian}/DEBIAN/prerm" />
+		<exec executable="fakeroot">
+			<arg value="dpkg-deb" />
+			<arg value="-b" />
+			<arg value="${debian}" />
+			<arg value="${stageDeb}/${debian.file.name}" />
+		</exec>
+	</target>
+
+	<target name="exe" if="launch4j.dir">
+		<delete dir="${stage}" />
+		<mkdir dir="${stage}/${project.name}" />
+		<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpath="${launch4j.dir}/launch4j.jar:${launch4j.dir}/lib/xstream.jar" />
+		<launch4j configFile="launch4j.xml" jar="${jar}/${project.name}.jar" outfile="${stage}/${project.name}/${project.name}.exe" fileVersion="${major.version}.${minor.version}.${build.number}.${svn.revision}" txtProductVersion="${timestamp}" />
+		<!-- <launch4j fileVersion="${major.version}.${minor.version}.${build.number}.${svn.revision}" txtProductVersion="${timestamp}">
+			<config jar="${jar}/${project.name}.jar" outfile="${stage}/${project.name}.exe" dontWrapJar="false" headerType="gui" priority="normal" downloadUrl="http://java.com/download" stayAlive="false" icon="resources/icon.ico">
+				<singleInstance mutexName="GoFBot" />
+				<jre minVersion="1.6.0" jdkPreference="preferJre">
+					<opt>-Djava.util.logging.config.file=log.properties</opt>
+					<opt>-Djava.util.logging.manager=java.util.logging.LogManager</opt>
+				</jre>
+			</config>
+		</launch4j> -->
+	</target>
+	
+	<target name="dist" depends="init, resolve, jar, debian">
+		<!-- <antcall target="distExe" /> -->
+		<antcall target="distDeb" />
+	</target>
+	
+	<target name="distExe" depends="init" if="launch4j.dir">
+		<mkdir dir="${stageStatic}" />
+		<copy todir="${stage}/${project.name}" overwrite="true">
+			<fileset dir="${stageStatic}" />
+		</copy>
+		<fixcrlf srcdir="${stage}/${project.name}" eol="crlf">
+			<include name="**/*.txt" />
+			<include name="**/*.properties" />
+			<include name="**/*.csv" />
+		</fixcrlf>
+		<delete dir="${dist}" />
+		<mkdir dir="${dist}" />
+		<zip destfile="${dist}/${project.name}-${timestamp}.zip" basedir="${stage}" />				
+	</target>
+	
+	<target name="distDeb" depends="init" if="dpkg-available">
+		<copy todir="${dist}" overwrite="true">
+			<fileset dir="${stageDeb}" />
+		</copy>
+	</target>
+</project>

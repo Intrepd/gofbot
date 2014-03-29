@@ -1,0 +1,16 @@
+#Mon Dec 02 22:47:11 EST 2013
+
+# EvilGoFBot
+nick=EvilGoFBot 
+oauth=oauth\:tfmg1d627o2yikpmoy0d88uirb2tn62
+
+# Gof_bot
+#nick=Gof_bot
+#oauth=oauth\:o04wh4pu4m55vqajjoey73zg2p9fl3p
+
+admins=intrepd
+channel=\#guild_of_fools
+#channel=\#tehmorag
+#channel=\#kaceytron
+#channel=\#itmejp
+server=irc.twitch.tv

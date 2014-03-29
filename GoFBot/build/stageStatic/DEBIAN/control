@@ -1,0 +1,13 @@
+Package: gofbot-1.0
+Version: 1.0
+Installed-Size: 10000
+Section: contrib/misc
+Priority: optional
+Architecture: amd64
+Replaces: gofbot
+Provides: gofbot
+Depends: openjdk-7-jre-headless
+Maintainer: Sean Devine <Sean@DevineEmail.com>
+Description: GoFBot is the Guild of Fools God Point
+ bot.
+ 

@@ -1,0 +1,18 @@
+#Wed Jan 08 20:26:49 EST 2014
+
+# EvilGoFBot
+nick=EvilGoFBot
+oauth=oauth\:tfmg1d627o2yikpmoy0d88uirb2tn62
+
+server=irc.twitch.tv
+channel=\#guild_of_fools
+admins=guild_of_fools, soilin89, itsjustchelsea, xxxunlivingxxx, intrepd
+
+# Mail Settings
+mailTo=Sean@DevineEmail.com
+mailHost=smtp.googlemail.com
+mailPort=587
+mailUser=GoFBot@DevineEmail.com
+mailSSL=true
+mailPassword=93&eA\=>q!
+mailFrom=GoFBot@DevineEmail.com

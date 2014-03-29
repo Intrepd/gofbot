@@ -1,0 +1,5 @@
+#!/bin/sh
+
+service gofbot stop
+
+exit 0

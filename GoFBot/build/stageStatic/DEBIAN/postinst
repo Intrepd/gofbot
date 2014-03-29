@@ -1,0 +1,15 @@
+#!/bin/sh
+
+[ -z "$SERVER_HOME" ] && SERVER_HOME=/home/gofbot
+[ -z "$SERVER_ROOT" ] && SERVER_ROOT=$SERVER_HOME/GoFBot
+[ -z "$SERVER_USER" ] && SERVER_USER=gofbot
+[ -z "$SERVER_NAME" ] && SERVER_NAME="GoFBot"
+[ -z "$SERVER_GROUP" ] && SERVER_GROUP=gofbot
+
+if ! dpkg-statoverride --list $SERVER_HOME >/dev/null
+then
+	chown -R $SERVER_USER:$SERVER_GROUP $SERVER_HOME
+	chmod u=rwx,g=rxs,o= $SERVER_HOME
+fi
+
+exit 0
