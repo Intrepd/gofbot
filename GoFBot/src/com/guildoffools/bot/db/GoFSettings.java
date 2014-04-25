@@ -17,6 +17,9 @@ import com.guildoffools.utils.IOUtils;
 public class GoFSettings
 {
 	private static final Logger log = Logger.getLogger(GoFSettings.class.getName());
+
+	public static final int HIGH_GOD_THRESHOLD = 500;
+
 	public static final String ADMINS = "admins";
 	public static final String ADMINS_DEFAULT = "guild_of_fools, soilin89, itsjustchelsea, xxxunlivingxxx";
 	public static final String CHANNEL = "channel";
@@ -111,7 +114,7 @@ public class GoFSettings
 
 	public boolean isAdmin(final String nick)
 	{
-		return this.adminSet.contains(nick);
+		return adminSet.contains(nick);
 	}
 
 	public String getChannel()
@@ -141,7 +144,7 @@ public class GoFSettings
 
 	public void set(final String key, final String value)
 	{
-		this.props.setProperty(key, value);
+		props.setProperty(key, value);
 	}
 
 	public void save()
@@ -150,7 +153,7 @@ public class GoFSettings
 		try
 		{
 			writer = new BufferedWriter(new FileWriter("GoFSettings.txt"));
-			this.props.store(writer, null);
+			props.store(writer, null);
 		}
 		catch (final IOException ioe)
 		{

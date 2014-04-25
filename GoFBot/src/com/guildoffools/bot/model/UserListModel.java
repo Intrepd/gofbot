@@ -26,16 +26,21 @@ public class UserListModel
 
 	public synchronized void addUser(final String user)
 	{
-		this.users.add(user);
+		users.add(user);
 	}
 
 	public synchronized void removeUser(final String user)
 	{
-		this.users.remove(user);
+		users.remove(user);
+	}
+
+	public synchronized void removeAllUsers()
+	{
+		users.clear();
 	}
 
 	public synchronized String[] getUsers()
 	{
-		return this.users.toArray(new String[0]);
+		return users.toArray(new String[0]);
 	}
 }

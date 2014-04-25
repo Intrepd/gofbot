@@ -9,6 +9,7 @@ import org.pircbotx.ReplyConstants;
 import org.pircbotx.hooks.events.JoinEvent;
 import org.pircbotx.hooks.events.ServerResponseEvent;
 
+import com.guildoffools.bot.db.GoFSettings;
 import com.guildoffools.bot.model.DefaultGoFUser;
 
 public class JoinListener extends AbstractListenerAdapter
@@ -53,6 +54,10 @@ public class JoinListener extends AbstractListenerAdapter
 		{
 			gofUser.setPoints(gofUser.getPoints() + 1);
 			log.info(nick + " earned a point for joining the cast, last seen " + lastJoined + ", " + gofUser.getPointsString() + ".");
+			if (gofUser.getPoints() >= GoFSettings.HIGH_GOD_THRESHOLD)
+			{
+				bot.sendIRC().message(settings.getChannel(), "High God " + nick + " has arrived.");
+			}
 		}
 		gofUser.setLastJoined(new Date(timestamp));
 		db.updateUser(gofUser);

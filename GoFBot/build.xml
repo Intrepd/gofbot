@@ -6,7 +6,7 @@
 	<property name="dpkg-deb" location="/usr/bin/dpkg-deb" />
 	<property name="major.version" value="1" />
 	<property name="minor.version" value="0" />
-	<property name="mini.version" value="0" />
+	<property name="mini.version" value="1" />
 	<property name="main.class" value="com.guildoffools.bot.GoFBot" />
 	<property name="classes" location="bin" />
 	<property name="dist" location="dist" />

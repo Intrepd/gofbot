@@ -33,10 +33,10 @@ public class TimeListener extends AbstractListenerAdapter
 		if (message.startsWith(TIME))
 		{
 			final String nick = words.length > 1 ? words[1].toLowerCase() : event.getUser().getNick();
-			final GoFUser user = this.db.getUser(nick, false);
+			final GoFUser user = db.getUser(nick, false);
 			if (user != null)
 			{
-				event.getBot().sendIRC().message(this.settings.getChannel(), nick + " has " + user.getTimeInChat() + " minutes in chat.");
+				event.getBot().sendIRC().message(settings.getChannel(), nick + " has " + user.getTimeInChat() + " minutes in chat.");
 			}
 		}
 	}
@@ -68,16 +68,16 @@ public class TimeListener extends AbstractListenerAdapter
 							{
 								final int points = gofUser.getPoints();
 								((DefaultGoFUser) gofUser).setPoints(points + 1);
-								TimeListener.log.info(nick + " awarded a loyalty point, time in chat " + timeInChat + ", " + gofUser.getPointsString() + ".");
+								log.info(nick + " awarded a loyalty point, time in chat " + timeInChat + ", " + gofUser.getPointsString() + ".");
 							}
-							TimeListener.this.db.updateUser(gofUser);
+							db.updateUser(gofUser);
 						}
 					}
 				}
 			}
 			catch (final Exception e)
 			{
-				TimeListener.log.log(Level.WARNING, "TimerTask Exception", e);
+				log.log(Level.WARNING, "TimerTask Exception", e);
 			}
 		}
 	}

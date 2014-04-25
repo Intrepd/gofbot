@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.pircbotx.PircBotX;
 import org.pircbotx.ReplyConstants;
+import org.pircbotx.hooks.events.DisconnectEvent;
 import org.pircbotx.hooks.events.JoinEvent;
 import org.pircbotx.hooks.events.PartEvent;
 import org.pircbotx.hooks.events.ServerResponseEvent;
@@ -12,6 +13,8 @@ import com.guildoffools.bot.model.UserListModel;
 
 public class UserListListener extends AbstractListenerAdapter
 {
+	private static final UserListModel userList = UserListModel.getInstance();
+
 	public UserListListener(final PircBotX bot)
 	{
 		super(bot);
@@ -38,12 +41,18 @@ public class UserListListener extends AbstractListenerAdapter
 	@Override
 	public void onJoin(final JoinEvent<PircBotX> event)
 	{
-		UserListModel.getInstance().addUser(event.getUser().getNick());
+		userList.addUser(event.getUser().getNick());
 	}
 
 	@Override
 	public void onPart(final PartEvent<PircBotX> event)
 	{
-		UserListModel.getInstance().removeUser(event.getUser().getNick());
+		userList.removeUser(event.getUser().getNick());
+	}
+
+	@Override
+	public void onDisconnect(final DisconnectEvent<PircBotX> event)
+	{
+		userList.removeAllUsers();
 	}
 }

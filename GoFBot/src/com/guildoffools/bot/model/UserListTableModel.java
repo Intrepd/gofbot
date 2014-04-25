@@ -7,6 +7,7 @@ import javax.swing.table.AbstractTableModel;
 
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.ListenerAdapter;
+import org.pircbotx.hooks.events.DisconnectEvent;
 import org.pircbotx.hooks.events.JoinEvent;
 import org.pircbotx.hooks.events.PartEvent;
 import org.pircbotx.hooks.events.ServerResponseEvent;
@@ -35,7 +36,7 @@ public class UserListTableModel extends AbstractTableModel
 						final String[] users = userList.split(" ");
 						for (final String user : users)
 						{
-							UserListTableModel.this.addUser(user);
+							addUser(user);
 						}
 					}
 				}
@@ -44,21 +45,28 @@ public class UserListTableModel extends AbstractTableModel
 			@Override
 			public void onJoin(final JoinEvent<PircBotX> event)
 			{
-				UserListTableModel.this.addUser(event.getUser().getNick());
+				addUser(event.getUser().getNick());
 			}
 
 			@Override
 			public void onPart(final PartEvent<PircBotX> event)
 			{
-				UserListTableModel.this.removeUser(event.getUser().getNick());
+				removeUser(event.getUser().getNick());
+			}
+
+			@Override
+			public void onDisconnect(final DisconnectEvent<PircBotX> event)
+			{
+				removeAllUsers();
 			}
 		});
+
 		GoFDatabase.getInstance().addListener(new GoFDatabaseListener()
 		{
 			@Override
 			public void userUpdated(final GoFUser user)
 			{
-				UserListTableModel.this.updateUser(user.getNick());
+				updateUser(user.getNick());
 			}
 
 			@Override
@@ -68,44 +76,51 @@ public class UserListTableModel extends AbstractTableModel
 		});
 	}
 
-	public void addUser(final String nick)
+	private void addUser(final String nick)
 	{
-		final int existingUserIndex = getUserIndex(nick);
-		if (existingUserIndex == -1)
+		synchronized (userList)
 		{
-			final GoFUser user = this.db.getUser(nick, true);
-
-			synchronized (this.userList)
+			final int existingUserIndex = getUserIndex(nick);
+			if (existingUserIndex == -1)
 			{
-				this.userList.add(user);
-				final int userListSize = this.userList.size();
-				fireTableRowsInserted(userListSize - 1, userListSize - 1);
+				final GoFUser user = db.getUser(nick, true);
+				userList.add(user);
+				fireTableRowsInserted(userList.size() - 1, userList.size() - 1);
 			}
 		}
 	}
 
-	public void removeUser(final String nick)
+	private void removeUser(final String nick)
 	{
-		final int indexToRemove = getUserIndex(nick);
-		if (indexToRemove != -1)
+		synchronized (userList)
 		{
-			synchronized (this.userList)
+			final int indexToRemove = getUserIndex(nick);
+			if (indexToRemove != -1)
 			{
-				this.userList.remove(indexToRemove);
+				userList.remove(indexToRemove);
 				fireTableRowsDeleted(indexToRemove, indexToRemove);
 			}
 		}
 	}
 
-	public void updateUser(final String nick)
+	private void removeAllUsers()
 	{
-		final int indexToUpdate = getUserIndex(nick);
-		if (indexToUpdate != -1)
+		synchronized (userList)
 		{
-			final GoFUser updatedUser = this.db.getUser(nick, false);
-			synchronized (this.userList)
+			userList.clear();
+			fireTableDataChanged();
+		}
+	}
+
+	private void updateUser(final String nick)
+	{
+		synchronized (userList)
+		{
+			final int indexToUpdate = getUserIndex(nick);
+			if (indexToUpdate != -1)
 			{
-				this.userList.set(indexToUpdate, updatedUser);
+				final GoFUser updatedUser = db.getUser(nick, false);
+				userList.set(indexToUpdate, updatedUser);
 				fireTableRowsUpdated(indexToUpdate, indexToUpdate);
 			}
 		}
@@ -114,11 +129,11 @@ public class UserListTableModel extends AbstractTableModel
 	public int getUserIndex(final String nick)
 	{
 		int index = -1;
-		synchronized (this.userList)
+		synchronized (userList)
 		{
-			for (int i = 0; (i < this.userList.size()) && (index == -1); i++)
+			for (int i = 0; (i < userList.size()) && (index == -1); i++)
 			{
-				final GoFUser user = this.userList.get(i);
+				final GoFUser user = userList.get(i);
 				if (user.getNick().equals(nick))
 				{
 					index = i;
@@ -132,9 +147,9 @@ public class UserListTableModel extends AbstractTableModel
 	public GoFUser getGoFUser(final int index)
 	{
 		GoFUser user;
-		synchronized (this.userList)
+		synchronized (userList)
 		{
-			user = this.userList.get(index);
+			user = userList.get(index);
 		}
 
 		return user;
@@ -171,9 +186,9 @@ public class UserListTableModel extends AbstractTableModel
 	public int getRowCount()
 	{
 		int rowCount;
-		synchronized (this.userList)
+		synchronized (userList)
 		{
-			rowCount = this.userList.size();
+			rowCount = userList.size();
 		}
 
 		return rowCount;
