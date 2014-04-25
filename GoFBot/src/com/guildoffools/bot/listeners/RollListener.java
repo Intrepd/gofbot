@@ -11,7 +11,7 @@ public class RollListener extends AbstractListenerAdapter
 {
 	private static final Random random = new Random();
 	private static final String ROLL = "!roll";
-	private static final Pattern ROLL_PATTERN = Pattern.compile("^(\\d*)d(\\d*)((?:[\\+-]\\d*?)+)?$");
+	private static final Pattern ROLL_PATTERN = Pattern.compile("^(\\d)d(\\d*)((?:[\\+-]\\d*?)+)?$");
 	private static final String SPLIT_PATTERN = "(?=(?!^)[\\+-])|(?<=[\\+-])";
 
 	public RollListener(final PircBotX bot)
@@ -34,7 +34,6 @@ public class RollListener extends AbstractListenerAdapter
 				int modifier = 0;
 				if (m.groupCount() == 3 && m.group(3) != null)
 				{
-					System.out.println(m.group(3));
 					final String[] modifierValues = m.group(3).split(SPLIT_PATTERN);
 					for (int i = 0; i < modifierValues.length; i = i + 2)
 					{
