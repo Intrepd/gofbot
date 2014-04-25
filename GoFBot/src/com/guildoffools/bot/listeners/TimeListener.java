@@ -1,5 +1,6 @@
 package com.guildoffools.bot.listeners;
 
+import java.util.List;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,7 +54,7 @@ public class TimeListener extends AbstractListenerAdapter
 			try
 			{
 				final long now = System.currentTimeMillis();
-				final String[] users = UserListModel.getInstance().getUsers();
+				final List<String> users = UserListModel.getInstance().getUsers();
 				for (final String nick : users)
 				{
 					final GoFUser gofUser = TimeListener.this.db.getUser(nick, false);

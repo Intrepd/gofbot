@@ -14,6 +14,7 @@ import com.guildoffools.bot.listeners.IRCListener;
 import com.guildoffools.bot.listeners.JoinListener;
 import com.guildoffools.bot.listeners.ReconnectListener;
 import com.guildoffools.bot.listeners.RestartListener;
+import com.guildoffools.bot.listeners.RollListener;
 import com.guildoffools.bot.listeners.SeenListener;
 import com.guildoffools.bot.listeners.TimeListener;
 import com.guildoffools.bot.listeners.UserListListener;
@@ -48,6 +49,7 @@ public class GoFBot
 		bot.getConfiguration().getListenerManager().addListener(new GodPointListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new ReconnectListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new RestartListener(bot));
+		bot.getConfiguration().getListenerManager().addListener(new RollListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new SeenListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new DieListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new WhoListener(bot));

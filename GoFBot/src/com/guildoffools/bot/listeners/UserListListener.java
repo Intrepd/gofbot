@@ -28,11 +28,11 @@ public class UserListListener extends AbstractListenerAdapter
 			final List<String> fields = event.getParsedResponse();
 			if (fields.size() > 3)
 			{
-				final String userList = fields.get(3);
-				final String[] nicks = userList.split(" ");
+				final String userListText = fields.get(3);
+				final String[] nicks = userListText.split(" ");
 				for (final String nick : nicks)
 				{
-					UserListModel.getInstance().addUser(nick);
+					userList.addUser(nick);
 				}
 			}
 		}

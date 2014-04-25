@@ -1,7 +1,7 @@
 package com.guildoffools.bot.listeners;
 
-import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.events.MessageEvent;
@@ -31,10 +31,10 @@ public class WhoListener extends AbstractAdminListenerAdapter
 		}
 		else if (message.startsWith(WHO))
 		{
-			final String[] users = UserListModel.getInstance().getUsers();
+			final List<String> users = UserListModel.getInstance().getUsers();
 			final StringBuilder builder = new StringBuilder();
 			builder.append("I see ");
-			final Iterator<String> iter = Arrays.asList(users).iterator();
+			final Iterator<String> iter = users.iterator();
 			while (iter.hasNext())
 			{
 				builder.append(iter.next());
