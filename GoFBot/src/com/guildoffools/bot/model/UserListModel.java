@@ -34,6 +34,11 @@ public class UserListModel
 		users.remove(user);
 	}
 
+	public synchronized boolean hasUser(final String user)
+	{
+		return users.contains(user);
+	}
+
 	public synchronized void removeAllUsers()
 	{
 		users.clear();

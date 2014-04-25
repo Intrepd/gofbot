@@ -56,7 +56,7 @@ public class JoinListener extends AbstractListenerAdapter
 			log.info(nick + " earned a point for joining the cast, last seen " + lastJoined + ", " + gofUser.getPointsString() + ".");
 			if (gofUser.getPoints() >= GoFSettings.HIGH_GOD_THRESHOLD)
 			{
-				bot.sendIRC().message(settings.getChannel(), "High God " + nick + " has arrived.");
+				send("High God " + nick + " has arrived.");
 			}
 		}
 		gofUser.setLastJoined(new Date(timestamp));

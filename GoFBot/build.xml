@@ -64,7 +64,7 @@
 
 	<target name="build">
 		<mkdir dir="${classes}" />
-		<javac srcdir="${source}" destdir="${classes}" debug="on" deprecation="on" source="1.6" target="1.6" includeAntRuntime="no">
+		<javac srcdir="${source}" destdir="${classes}" debug="on" deprecation="on" source="1.7" target="1.7" includeAntRuntime="no">
 			<classpath refid="compile.path" />
 		</javac>
 	</target>
@@ -86,6 +86,7 @@
 	<target name="debian" depends="init" if="dpkg-available">
 		<delete dir="${stageDeb}" />
 		<mkdir dir="${stageDeb}" />
+		<delete dir="${debian}" />
 		<mkdir dir="${debian}" />
 		<copy todir="${debian}">
 			<fileset dir="${build}/stageStatic" includes="**/*" />

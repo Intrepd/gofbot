@@ -23,7 +23,7 @@ public class ReconnectListener extends AbstractAdminListenerAdapter
 		if (message.startsWith(RECONNECT))
 		{
 			log.info(event.getUser().getNick() + " requested that the bot reconnect.");
-			bot.sendIRC().message(settings.getChannel(), settings.getNick() + " is reconnecting.");
+			send(settings.getNick() + " is reconnecting.");
 			bot.sendIRC().quitServer("Reconnecting...");
 		}
 	}

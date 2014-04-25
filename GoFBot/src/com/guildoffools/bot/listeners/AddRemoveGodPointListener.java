@@ -38,11 +38,11 @@ public class AddRemoveGodPointListener extends AbstractAdminListenerAdapter
 			{
 				((DefaultGoFUser) user).setPoints(user.getPoints() + pointsModifier);
 				db.updateUser(user);
-				bot.sendIRC().message(settings.getChannel(), nick + " now has " + user.getPointsString() + ".");
+				send(nick + " now has " + user.getPointsString() + ".");
 			}
 			else
 			{
-				bot.sendIRC().message(settings.getChannel(), "I don't know " + nick + ".");
+				send("I don't know " + nick + ".");
 			}
 		}
 	}

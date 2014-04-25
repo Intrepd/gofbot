@@ -29,7 +29,7 @@ public class DieListener extends AbstractAdminListenerAdapter
 		{
 			log.info(event.getUser().getNick() + " requested that the bot die.");
 			dieing = true;
-			bot.sendIRC().message(settings.getChannel(), settings.getNick() + " is departing.");
+			send(settings.getNick() + " is departing.");
 			GoFDatabase.getInstance().mailDatabase();
 			bot.stopBotReconnect();
 			bot.sendIRC().quitServer();

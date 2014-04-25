@@ -14,8 +14,10 @@ import com.guildoffools.bot.listeners.IRCListener;
 import com.guildoffools.bot.listeners.JoinListener;
 import com.guildoffools.bot.listeners.ReconnectListener;
 import com.guildoffools.bot.listeners.RestartListener;
+import com.guildoffools.bot.listeners.SeenListener;
 import com.guildoffools.bot.listeners.TimeListener;
 import com.guildoffools.bot.listeners.UserListListener;
+import com.guildoffools.bot.listeners.WhoListener;
 import com.guildoffools.bot.ui.MainFrame;
 
 public class GoFBot
@@ -38,15 +40,17 @@ public class GoFBot
 
 		final Configuration<PircBotX> config = builder.buildConfiguration();
 		bot = new PircBotX(config);
+		bot.getConfiguration().getListenerManager().addListener(new AddRemoveGodPointListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new IRCListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new UserListListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new JoinListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new TimeListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new GodPointListener(bot));
-		bot.getConfiguration().getListenerManager().addListener(new AddRemoveGodPointListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new ReconnectListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new RestartListener(bot));
+		bot.getConfiguration().getListenerManager().addListener(new SeenListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new DieListener(bot));
+		bot.getConfiguration().getListenerManager().addListener(new WhoListener(bot));
 
 		if (!GraphicsEnvironment.isHeadless())
 		{

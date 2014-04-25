@@ -47,7 +47,7 @@ public class IRCListener extends AbstractListenerAdapter
 		log.info("Server Message: " + event.getRawLine());
 		if (event.getCode() == ReplyConstants.RPL_ENDOFNAMES)
 		{
-			bot.sendIRC().message(settings.getChannel(), settings.getNick() + " is online.");
+			send(settings.getNick() + " is online.");
 		}
 	}
 }

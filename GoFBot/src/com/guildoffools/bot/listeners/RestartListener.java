@@ -23,7 +23,7 @@ public class RestartListener extends AbstractAdminListenerAdapter
 		if (message.startsWith(RESTART))
 		{
 			log.info(event.getUser().getNick() + " requested that the bot restart.");
-			bot.sendIRC().message(settings.getChannel(), settings.getNick() + " is restarting.");
+			send(settings.getNick() + " is restarting.");
 			bot.stopBotReconnect();
 			bot.sendIRC().quitServer();
 			System.exit(1);

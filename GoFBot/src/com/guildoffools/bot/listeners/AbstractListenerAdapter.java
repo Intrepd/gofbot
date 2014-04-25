@@ -20,4 +20,9 @@ public abstract class AbstractListenerAdapter extends ListenerAdapter<PircBotX>
 	{
 		this.bot = bot;
 	}
+
+	protected void send(final String message)
+	{
+		bot.sendIRC().message(settings.getChannel(), message);
+	}
 }

@@ -36,7 +36,7 @@ public class TimeListener extends AbstractListenerAdapter
 			final GoFUser user = db.getUser(nick, false);
 			if (user != null)
 			{
-				event.getBot().sendIRC().message(settings.getChannel(), nick + " has " + user.getTimeInChat() + " minutes in chat.");
+				send(nick + " has " + user.getTimeInChat() + " minutes in chat.");
 			}
 		}
 	}

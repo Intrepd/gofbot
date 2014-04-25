@@ -23,7 +23,7 @@ public class GodPointListener extends AbstractListenerAdapter
 		if (message.startsWith(GP))
 		{
 			final String nick = words.length > 1 ? words[1].toLowerCase() : event.getUser().getNick();
-			final GoFUser user = this.db.getUser(nick, false);
+			final GoFUser user = db.getUser(nick, false);
 			if (user != null)
 			{
 				final int points = user.getPoints();
@@ -34,7 +34,7 @@ public class GodPointListener extends AbstractListenerAdapter
 					builder.append("s");
 				}
 				builder.append(".");
-				event.getBot().sendIRC().message(this.settings.getChannel(), builder.toString());
+				send(builder.toString());
 			}
 		}
 	}
