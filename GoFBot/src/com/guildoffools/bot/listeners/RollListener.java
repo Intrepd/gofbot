@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.events.MessageEvent;
 
-public class RollListener extends AbstractListenerAdapter
+public class RollListener extends AbstractAdminListenerAdapter
 {
 	private static final Random random = new Random();
 	private static final String ROLL = "!roll";
@@ -20,7 +20,7 @@ public class RollListener extends AbstractListenerAdapter
 	}
 
 	@Override
-	public void onMessage(final MessageEvent<PircBotX> event)
+	public void onAdminMessage(final MessageEvent<PircBotX> event)
 	{
 		String message = event.getMessage().trim();
 		if (message.startsWith(ROLL))
