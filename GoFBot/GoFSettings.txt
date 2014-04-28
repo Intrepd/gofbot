@@ -5,7 +5,7 @@ nick=EvilGoFBot
 oauth=oauth\:tfmg1d627o2yikpmoy0d88uirb2tn62
 
 server=irc.twitch.tv
-channel=\#guild_of_fools
+channel=\#intrepd
 admins=guild_of_fools, soilin89, itsjustchelsea, xxxunlivingxxx, intrepd
 
 # Mail Settings
