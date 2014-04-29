@@ -38,6 +38,7 @@ public class GoFBot
 		builder.setServerPassword(settings.getOAuth());
 		builder.addAutoJoinChannel(settings.getChannel());
 		builder.setAutoReconnect(true);
+		builder.setMessageDelay(2000);
 
 		final Configuration<PircBotX> config = builder.buildConfiguration();
 		bot = new PircBotX(config);

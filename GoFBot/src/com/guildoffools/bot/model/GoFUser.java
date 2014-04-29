@@ -2,15 +2,19 @@ package com.guildoffools.bot.model;
 
 import java.util.Date;
 
-public abstract interface GoFUser
+public interface GoFUser
 {
-	public abstract String getNick();
+	public String getNick();
 
-	public abstract int getPoints();
+	public int getPoints();
 
-	public abstract String getPointsString();
+	public String getPointsString();
 
-	public abstract Date getLastJoined();
+	public Date getLastJoined();
 
-	public abstract int getTimeInChat();
+	public int getTimeInChat();
+
+	public boolean isHighGod();
+
+	public int getCastsJoined();
 }
