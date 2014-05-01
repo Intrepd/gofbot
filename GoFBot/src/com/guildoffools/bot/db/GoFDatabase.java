@@ -34,10 +34,11 @@ import com.guildoffools.utils.MailUtils;
 
 public class GoFDatabase
 {
+	public static final String CSV_FILE = "GoFBot.csv";
+	public static final String CSV_FILE_TEMP = "GoFBot.csv.temp";
+
 	private static final Logger log = Logger.getLogger(GoFDatabase.class.getName());
 	private static final int SAVE_INTERVAL = 300000;
-	private static final String CSV_FILE = "GoFBot.csv";
-	private static final String CSV_FILE_TEMP = "GoFBot.csv.temp";
 	private static GoFDatabase database;
 	private final List<GoFDatabaseListener> listeners = new ArrayList<GoFDatabaseListener>();
 	private final Map<String, GoFUser> userMap = new HashMap<String, GoFUser>();
@@ -59,6 +60,8 @@ public class GoFDatabase
 
 	private GoFDatabase()
 	{
+		GoFDatabaseUpgrader.upgrade();
+
 		CsvBeanReader beanReader = null;
 		try
 		{

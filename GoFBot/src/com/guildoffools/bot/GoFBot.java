@@ -10,6 +10,7 @@ import com.guildoffools.bot.db.GoFSettings;
 import com.guildoffools.bot.listeners.AddRemoveGodPointListener;
 import com.guildoffools.bot.listeners.DieListener;
 import com.guildoffools.bot.listeners.GodPointListener;
+import com.guildoffools.bot.listeners.HighGodListener;
 import com.guildoffools.bot.listeners.IRCListener;
 import com.guildoffools.bot.listeners.JoinListener;
 import com.guildoffools.bot.listeners.ReconnectListener;
@@ -42,17 +43,19 @@ public class GoFBot
 
 		final Configuration<PircBotX> config = builder.buildConfiguration();
 		bot = new PircBotX(config);
-		bot.getConfiguration().getListenerManager().addListener(new AddRemoveGodPointListener(bot));
-		bot.getConfiguration().getListenerManager().addListener(new IRCListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new UserModelListener(bot));
-		bot.getConfiguration().getListenerManager().addListener(new JoinListener(bot));
-		bot.getConfiguration().getListenerManager().addListener(new TimeListener(bot));
+
+		bot.getConfiguration().getListenerManager().addListener(new AddRemoveGodPointListener(bot));
+		bot.getConfiguration().getListenerManager().addListener(new DieListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new GodPointListener(bot));
+		bot.getConfiguration().getListenerManager().addListener(new HighGodListener(bot));
+		bot.getConfiguration().getListenerManager().addListener(new IRCListener(bot));
+		bot.getConfiguration().getListenerManager().addListener(new JoinListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new ReconnectListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new RestartListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new RollListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new SeenListener(bot));
-		bot.getConfiguration().getListenerManager().addListener(new DieListener(bot));
+		bot.getConfiguration().getListenerManager().addListener(new TimeListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new WhoListener(bot));
 
 		if (!GraphicsEnvironment.isHeadless())

@@ -1,15 +1,13 @@
 package com.guildoffools.bot.listeners;
 
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.pircbotx.PircBotX;
-import org.pircbotx.ReplyConstants;
-import org.pircbotx.hooks.events.JoinEvent;
-import org.pircbotx.hooks.events.ServerResponseEvent;
 
 import com.guildoffools.bot.model.DefaultGoFUser;
+import com.guildoffools.bot.model.UserModel;
+import com.guildoffools.bot.model.UserModelListener;
 
 public class JoinListener extends AbstractListenerAdapter
 {
@@ -19,34 +17,30 @@ public class JoinListener extends AbstractListenerAdapter
 	public JoinListener(final PircBotX bot)
 	{
 		super(bot);
-	}
 
-	@Override
-	public void onServerResponse(final ServerResponseEvent<PircBotX> event)
-	{
-		if (event.getCode() == ReplyConstants.RPL_NAMREPLY)
+		UserModel.getInstance().addListener(new UserModelListener()
 		{
-			final List<String> fields = event.getParsedResponse();
-			if (fields.size() > 3)
+			@Override
+			public void usersRemoved()
 			{
-				final String userList = fields.get(3);
-				final String[] nicks = userList.split(" ");
-				for (final String nick : nicks)
-				{
-					handleJoin(nick, event.getTimestamp());
-				}
 			}
-		}
+
+			@Override
+			public void userRemoved(final String nick)
+			{
+			}
+
+			@Override
+			public void userAdded(final String nick)
+			{
+				handleJoin(nick);
+			}
+		});
 	}
 
-	@Override
-	public void onJoin(final JoinEvent<PircBotX> event)
+	private void handleJoin(final String nick)
 	{
-		handleJoin(event.getUser().getNick(), event.getTimestamp());
-	}
-
-	private void handleJoin(final String nick, final long timestamp)
-	{
+		final long timestamp = System.currentTimeMillis();
 		final DefaultGoFUser gofUser = (DefaultGoFUser) db.getUser(nick, true);
 		final Date lastJoined = gofUser.getLastJoined();
 		if (timestamp - lastJoined.getTime() > TWELVE_HOURS)

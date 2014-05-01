@@ -6,8 +6,6 @@ import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.events.DisconnectEvent;
 import org.pircbotx.hooks.events.MessageEvent;
 
-import com.guildoffools.bot.db.GoFDatabase;
-
 public class DieListener extends AbstractAdminListenerAdapter
 {
 	private static final Logger log = Logger.getLogger(DieListener.class.getName());
@@ -30,7 +28,7 @@ public class DieListener extends AbstractAdminListenerAdapter
 			log.info(event.getUser().getNick() + " requested that the bot die.");
 			dieing = true;
 			send(settings.getNick() + " is departing.");
-			GoFDatabase.getInstance().mailDatabase();
+			db.mailDatabase();
 			bot.stopBotReconnect();
 			bot.sendIRC().quitServer();
 		}
