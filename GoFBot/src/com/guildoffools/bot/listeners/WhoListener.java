@@ -6,7 +6,7 @@ import java.util.List;
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.events.MessageEvent;
 
-import com.guildoffools.bot.model.UserListModel;
+import com.guildoffools.bot.model.UserModel;
 
 public class WhoListener extends AbstractAdminListenerAdapter
 {
@@ -26,12 +26,12 @@ public class WhoListener extends AbstractAdminListenerAdapter
 		if (message.startsWith(WHO) && words.length > 1)
 		{
 			final String nick = words[1];
-			final boolean present = UserListModel.getInstance().hasUser(nick);
+			final boolean present = UserModel.getInstance().hasUser(nick);
 			send(present ? nick + " is here" : "I don't see " + nick);
 		}
 		else if (message.startsWith(WHO))
 		{
-			final List<String> users = UserListModel.getInstance().getUsers();
+			final List<String> users = UserModel.getInstance().getUsers();
 			final StringBuilder builder = new StringBuilder();
 			builder.append("I see ");
 			final Iterator<String> iter = users.iterator();

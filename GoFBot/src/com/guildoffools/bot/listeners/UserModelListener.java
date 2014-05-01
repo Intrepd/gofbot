@@ -9,13 +9,13 @@ import org.pircbotx.hooks.events.JoinEvent;
 import org.pircbotx.hooks.events.PartEvent;
 import org.pircbotx.hooks.events.ServerResponseEvent;
 
-import com.guildoffools.bot.model.UserListModel;
+import com.guildoffools.bot.model.UserModel;
 
-public class UserListListener extends AbstractListenerAdapter
+public class UserModelListener extends AbstractListenerAdapter
 {
-	private static final UserListModel userList = UserListModel.getInstance();
+	private static final UserModel userList = UserModel.getInstance();
 
-	public UserListListener(final PircBotX bot)
+	public UserModelListener(final PircBotX bot)
 	{
 		super(bot);
 	}

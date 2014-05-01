@@ -10,7 +10,7 @@ import org.pircbotx.hooks.events.MessageEvent;
 
 import com.guildoffools.bot.model.DefaultGoFUser;
 import com.guildoffools.bot.model.GoFUser;
-import com.guildoffools.bot.model.UserListModel;
+import com.guildoffools.bot.model.UserModel;
 
 public class TimeListener extends AbstractListenerAdapter
 {
@@ -54,7 +54,7 @@ public class TimeListener extends AbstractListenerAdapter
 			try
 			{
 				final long now = System.currentTimeMillis();
-				final List<String> users = UserListModel.getInstance().getUsers();
+				final List<String> users = UserModel.getInstance().getUsers();
 				for (final String nick : users)
 				{
 					final GoFUser gofUser = TimeListener.this.db.getUser(nick, false);

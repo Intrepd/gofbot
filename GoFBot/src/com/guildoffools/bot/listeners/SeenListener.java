@@ -5,7 +5,7 @@ import org.pircbotx.hooks.events.MessageEvent;
 
 import com.guildoffools.bot.db.GoFDatabase;
 import com.guildoffools.bot.model.GoFUser;
-import com.guildoffools.bot.model.UserListModel;
+import com.guildoffools.bot.model.UserModel;
 
 public class SeenListener extends AbstractAdminListenerAdapter
 {
@@ -25,7 +25,7 @@ public class SeenListener extends AbstractAdminListenerAdapter
 		if (message.startsWith(SEEN) && words.length > 1)
 		{
 			final String nick = words[1];
-			if (UserListModel.getInstance().hasUser(nick))
+			if (UserModel.getInstance().hasUser(nick))
 			{
 				send(nick + " is here");
 			}
