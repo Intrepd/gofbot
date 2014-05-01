@@ -6,6 +6,7 @@ import org.pircbotx.PircBotX;
 import org.pircbotx.ReplyConstants;
 import org.pircbotx.hooks.events.ConnectEvent;
 import org.pircbotx.hooks.events.DisconnectEvent;
+import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.events.ServerResponseEvent;
 import org.pircbotx.hooks.events.SocketConnectEvent;
 
@@ -16,6 +17,16 @@ public class IRCListener extends AbstractListenerAdapter
 	public IRCListener(final PircBotX bot)
 	{
 		super(bot);
+	}
+
+	@Override
+	public void onMessage(final MessageEvent<PircBotX> event)
+	{
+		final String message = event.getMessage();
+		if (!message.startsWith("!"))
+		{
+			log.info("<" + event.getUser().getNick() + "> " + event.getMessage());
+		}
 	}
 
 	@Override
