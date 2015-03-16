@@ -1,0 +1,1 @@
+A Twitch.tv bot for the Guild of Fools
