@@ -8,6 +8,7 @@ import org.pircbotx.PircBotX;
 
 import com.guildoffools.bot.db.GoFSettings;
 import com.guildoffools.bot.listeners.AddRemoveGodPointListener;
+import com.guildoffools.bot.listeners.CostListener;
 import com.guildoffools.bot.listeners.DieListener;
 import com.guildoffools.bot.listeners.GodPointListener;
 import com.guildoffools.bot.listeners.HighGodListener;
@@ -46,6 +47,7 @@ public class GoFBot
 		bot.getConfiguration().getListenerManager().addListener(new UserModelListener(bot));
 
 		bot.getConfiguration().getListenerManager().addListener(new AddRemoveGodPointListener(bot));
+		bot.getConfiguration().getListenerManager().addListener(new CostListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new DieListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new GodPointListener(bot));
 		bot.getConfiguration().getListenerManager().addListener(new HighGodListener(bot));

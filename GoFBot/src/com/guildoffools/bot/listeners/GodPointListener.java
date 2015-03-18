@@ -20,7 +20,7 @@ public class GodPointListener extends AbstractListenerAdapter
 		final String message = event.getMessage().trim();
 		final String[] words = message.split(" ");
 
-		if (message.startsWith(GP))
+		if (words.length > 0 && words[0].equals(GP))
 		{
 			final String nick = words.length > 1 ? words[1].toLowerCase() : event.getUser().getNick();
 			final GoFUser user = db.getUser(nick, false);
